@@ -77,6 +77,15 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    private fun getLocationWeatherDetails(){
+        if(Constants.isNetworkAvailable(this)){
+            Toast.makeText(this@MainActivity, "You have connected to the internet.", Toast.LENGTH_SHORT).show()
+        } else{
+            Toast.makeText(this@MainActivity, "You are not connected to the internet!", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+
     private fun isLocationEnabled(): Boolean {
         val locationManager: LocationManager =
             getSystemService(Context.LOCATION_SERVICE) as LocationManager
@@ -100,6 +109,7 @@ class MainActivity : AppCompatActivity() {
             val mLastLocation: Location? = locationResult.lastLocation
             val latitude = mLastLocation?.latitude
             val longitude = mLastLocation?.longitude
+            getLocationWeatherDetails()
 
         }
     }
