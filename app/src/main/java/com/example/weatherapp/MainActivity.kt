@@ -2,6 +2,7 @@ package com.example.weatherapp
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
@@ -138,6 +139,8 @@ class MainActivity : AppCompatActivity() {
 
         if (Constants.isNetworkAvailable(this@MainActivity)) {
 
+            customProgressDialogFunction(true)
+
             val retrofit: Retrofit = Retrofit.Builder()
                 // API base URL.
                 .baseUrl(Constants.BASE_URL)
@@ -156,6 +159,9 @@ class MainActivity : AppCompatActivity() {
                     call: Call<WeatherResponse>,
                     response: Response<WeatherResponse>
                 ) {
+
+                    customProgressDialogFunction(false)
+
                     if (response.isSuccessful) {
 
                         val weatherList: WeatherResponse = response.body()!!
@@ -190,4 +196,18 @@ class MainActivity : AppCompatActivity() {
             ).show()
         }
     }
+
+    private fun customProgressDialogFunction(visibility: Boolean){
+        val customProgressDialog = Dialog(this)
+        customProgressDialog.setContentView(R.layout.custom_dialog)
+        customProgressDialog.setCancelable(false)
+
+        if(visibility){
+            customProgressDialog.show()
+        } else{
+            customProgressDialog.hide()
+        }
+
+    }
+
 }

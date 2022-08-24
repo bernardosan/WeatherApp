@@ -1,4 +1,8 @@
 <resources>
-    <string name="app_name">WeatherApp</string>
-    <string name="location_rationale">e</string>
+    <string name="app_name">Weather App</string>
+
+    <string name="please_wait">Please Wait&#8230;</string>
+
+    <string name="image_contentDescription">image</string>
+    <string name="miles_per_hour">miles/hour</string>
 </resources>
