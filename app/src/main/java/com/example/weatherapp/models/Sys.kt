@@ -6,6 +6,7 @@ data class Sys(
     val id: Int,
     val name: String,
     val cod: Int,
-    val sunrise: Int,
-    val sunset: Int
+    val country: String,
+    val sunrise: Long,
+    val sunset: Long
 ) : Serializable

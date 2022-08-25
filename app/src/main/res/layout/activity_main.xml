@@ -256,13 +256,15 @@
                     android:layout_width="@dimen/identification_image_size"
                     android:layout_height="@dimen/identification_image_size"
                     android:layout_marginEnd="@dimen/identification_image_marginEnd"
+                    android:layout_marginStart="10dp"
                     android:contentDescription="@string/image_contentDescription"
                     app:srcCompat="@drawable/location" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:layout_marginEnd="10dp">
 
                     <TextView
                         android:id="@+id/tv_name"
@@ -287,8 +289,8 @@
             </LinearLayout>
 
             <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/divider_height"
+                android:layout_width="315dp"
+                android:layout_height="2dp"
                 android:layout_margin="@dimen/divider_margin"
                 android:background="@color/divider_background" />
 
