@@ -259,6 +259,9 @@ class MainActivity : AppCompatActivity() {
                     "13n" -> iv_main.setImageResource(R.drawable.snowflake)
                 }
             }
+
+            tv_last_update.text = "Last update: ${getCurrentDateTime()}"
+
         }
     }
 
@@ -290,5 +293,11 @@ class MainActivity : AppCompatActivity() {
             } else -> return super.onOptionsItemSelected(item)
         }
     }
+
+    private fun getCurrentDateTime(): String? {
+        val formatter = SimpleDateFormat("HH:mm:ss dd/MM/YYYY ", Locale.UK)
+        return formatter.format(Calendar.getInstance().time)
+    }
+
 
 }

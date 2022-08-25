@@ -346,6 +346,18 @@
                         tools:text="Sunset" />
                 </LinearLayout>
             </LinearLayout>
+
         </LinearLayout>
     </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/tv_last_update"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@color/secondary_text_color"
+        android:textSize="@dimen/value_text_size"
+        android:layout_marginTop="@dimen/card_view_marginTop"
+        tools:text="Last update: 00:00:00" />
+
 </LinearLayout>
