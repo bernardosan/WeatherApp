@@ -156,6 +156,8 @@ class MainActivity : AppCompatActivity() {
             Log.i("Current Longitude", "$longitude")
 
             getLocationWeatherDetails(latitude, longitude)
+
+            mFusedLocationClient.removeLocationUpdates(this);
         }
     }
 
