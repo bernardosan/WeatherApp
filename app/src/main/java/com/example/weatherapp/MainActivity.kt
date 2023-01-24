@@ -21,6 +21,7 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.gms.location.*
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
@@ -41,6 +42,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var mSharedPreferences: SharedPreferences
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -48,6 +50,17 @@ class MainActivity : AppCompatActivity() {
         // Initialize the Fused location variable
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         mSharedPreferences = getSharedPreferences(Constants.PREFERENCE_NAME, Context.MODE_PRIVATE)
+
+        val swipeRefreshLayout = findViewById<SwipeRefreshLayout>(R.id.sr_layout)
+
+        swipeRefreshLayout.setOnRefreshListener {
+
+            swipeRefreshLayout.isRefreshing.run {
+               requestLocationData()
+            }
+
+            swipeRefreshLayout.isRefreshing = false
+        }
 
         if (!isLocationEnabled()) {
             Toast.makeText(
@@ -188,8 +201,7 @@ class MainActivity : AppCompatActivity() {
 
                     } else {
                         // If the response is not success then we check the response code.
-                        val sc = response.code()
-                        when (sc) {
+                        when (response.code()) {
                             400 -> {
                                 Log.e("Error 400", "Bad Request")
                             }
@@ -217,6 +229,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setupUi(){
 
         val weatherResponseJsonString = mSharedPreferences.getString(Constants.WEATHER_RESPONSE_DATE, "")
@@ -231,8 +244,7 @@ class MainActivity : AppCompatActivity() {
                 Log.e("weather name", weatherList.weather.toString())
                 tv_main.text = weatherList.weather[i].main
                 tv_main_description.text = weatherList.weather[i].description
-                tv_temp.text =
-                    weatherList.main.temp.toString() + getUnit(application.resources.configuration.locales.toString())
+                tv_temp.text = weatherList.main.temp.toString() + getUnit(application.resources.configuration.locales.toString())
                 tv_speed.text = weatherList.wind.speed.toString()
                 tv_humidity.text = weatherList.main.humidity.toString() + "% RH"
                 tv_max.text = weatherList.main.temp_max.toString() + "º max"
@@ -265,7 +277,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun getUnit(parameter: String): String?{
+    private fun getUnit(parameter: String): String {
         var unit  = "ºC"
         if(parameter ==  "US" || parameter == "LR" || parameter == "MM" ){
             unit  = "ºF"
@@ -287,15 +299,17 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId){
-            R.id.btn_refresh ->{
+            R.id.btn_refresh -> {
                 requestLocationData()
                 true
-            } else -> return super.onOptionsItemSelected(item)
+            }
+
+            else -> return super.onOptionsItemSelected(item)
         }
     }
 
     private fun getCurrentDateTime(): String? {
-        val formatter = SimpleDateFormat("HH:mm:ss dd/MM/YYYY ", Locale.UK)
+        val formatter = SimpleDateFormat("HH:mm:ss dd/MM/yyyy ", Locale.UK)
         return formatter.format(Calendar.getInstance().time)
     }
 
