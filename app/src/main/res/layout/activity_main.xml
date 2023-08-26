@@ -1,16 +1,17 @@
 <androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/srl_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/sr_layout">
+    android:layout_height="match_parent">
 
     <LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#DFDEDE"
-    android:orientation="vertical"
-    android:padding="@dimen/main_screen_content_padding">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#DFDEDE"
+        android:orientation="vertical"
+        android:padding="@dimen/main_screen_content_padding">
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -309,8 +310,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/sunrise_marginTop"
-                    android:orientation="vertical"
-                    tools:ignore="UseCompoundDrawables">
+                    android:orientation="vertical">
 
                     <ImageView
                         android:id="@+id/iv_sunrise"
@@ -333,8 +333,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/sunset_marginStart"
-                    android:orientation="vertical"
-                    tools:ignore="UseCompoundDrawables">
+                    android:orientation="vertical">
 
                     <ImageView
                         android:id="@+id/iv_sunset"
@@ -367,6 +366,7 @@
         android:layout_marginTop="@dimen/card_view_marginTop"
         tools:text="Last update: 00:00:00" />
 
-</LinearLayout>
+
+    </LinearLayout>
 
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

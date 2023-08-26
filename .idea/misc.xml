@@ -3,18 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/habbo/AndroidStudioProjects/WeatherApp/app/src/main/res/drawable-v24/close.xml" value="0.24074074074074073" />
-        <entry key="..\:/Users/habbo/AndroidStudioProjects/WeatherApp/app/src/main/res/drawable-v24/cloud.xml" value="0.22135416666666666" />
-        <entry key="..\:/Users/habbo/AndroidStudioProjects/WeatherApp/app/src/main/res/drawable-v24/evening.xml" value="0.24074074074074073" />
-        <entry key="..\:/Users/habbo/AndroidStudioProjects/WeatherApp/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.21666666666666667" />
-        <entry key="..\:/Users/habbo/AndroidStudioProjects/WeatherApp/app/src/main/res/drawable-v24/item_rounded_rectangle_white.xml" value="0.24074074074074073" />
-        <entry key="..\:/Users/habbo/AndroidStudioProjects/WeatherApp/app/src/main/res/drawable-v24/rain.xml" value="0.24074074074074073" />
-        <entry key="..\:/Users/habbo/AndroidStudioProjects/WeatherApp/app/src/main/res/drawable-v24/sunny.xml" value="0.24074074074074073" />
-        <entry key="..\:/Users/habbo/AndroidStudioProjects/WeatherApp/app/src/main/res/drawable/ic_launcher_background.xml" value="0.21666666666666667" />
-        <entry key="..\:/Users/habbo/AndroidStudioProjects/WeatherApp/app/src/main/res/drawable/ic_refresh_24dp.xml" value="0.2015625" />
-        <entry key="..\:/Users/habbo/AndroidStudioProjects/WeatherApp/app/src/main/res/layout/activity_main.xml" value="0.33" />
-        <entry key="..\:/Users/habbo/AndroidStudioProjects/WeatherApp/app/src/main/res/layout/custom_dialog.xml" value="0.17831813576494426" />
-        <entry key="..\:/Users/habbo/AndroidStudioProjects/WeatherApp/app/src/main/res/menu/menu_main.xml" value="0.20520833333333333" />
+        <entry key="..\:/Users/Bernardo/AndroidStudioProjects/Birth2minutes/WeatherApp/app/src/main/res/layout/activity_main.xml" value="0.15885416666666666" />
+        <entry key="..\:/Users/Bernardo/AndroidStudioProjects/Birth2minutes/WeatherApp/app/src/main/res/menu/menu_main.xml" value="0.15885416666666666" />
+        <entry key="..\:/Users/habbo/AndroidStudioProjects/WeatherApp/app/src/main/res/layout/activity_main.xml" value="0.2957427536231884" />
       </map>
     </option>
   </component>

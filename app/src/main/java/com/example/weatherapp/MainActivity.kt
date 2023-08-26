@@ -7,11 +7,10 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.icu.text.SimpleDateFormat
-import android.icu.util.TimeZone
 import android.location.Location
 import android.location.LocationManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Looper
 import android.provider.Settings
@@ -19,9 +18,9 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.gms.location.*
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
@@ -32,13 +31,21 @@ import com.example.weatherapp.network.WeatherResponse
 import com.example.weatherapp.network.WeatherService
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_main.*
-import retrofit2.*
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit.*
+import java.text.SimpleDateFormat
 import java.util.*
+
 
 class MainActivity : AppCompatActivity() {
 
+
     private lateinit var mFusedLocationClient: FusedLocationProviderClient
+
+    private var mProgressDialog: Dialog? = null
+
+    private var mLatitude: Double = 0.0
+
+    private var mLongitude: Double = 0.0
 
     private lateinit var mSharedPreferences: SharedPreferences
 
@@ -47,27 +54,20 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Initialize the Fused location variable
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+
         mSharedPreferences = getSharedPreferences(Constants.PREFERENCE_NAME, Context.MODE_PRIVATE)
 
-        val swipeRefreshLayout = findViewById<SwipeRefreshLayout>(R.id.sr_layout)
 
-        swipeRefreshLayout.setOnRefreshListener {
+        setupUI()
 
-            swipeRefreshLayout.isRefreshing.run {
-               requestLocationData()
-            }
-
-            swipeRefreshLayout.isRefreshing = false
+        srl_layout.setOnRefreshListener {
+            getLocationWeatherDetails()
         }
 
+
         if (!isLocationEnabled()) {
-            Toast.makeText(
-                this,
-                "Your location provider is turned off. Please turn it on.",
-                Toast.LENGTH_SHORT
-            ).show()
+            Toast.makeText(this, "Your location provider is turned off. Please turn it on.", Toast.LENGTH_SHORT).show()
 
             val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
             startActivity(intent)
@@ -84,27 +84,35 @@ class MainActivity : AppCompatActivity() {
                         }
 
                         if (report.isAnyPermissionPermanentlyDenied) {
-                            Toast.makeText(
-                                this@MainActivity,
-                                "You have denied location permission. Please allow it is mandatory.",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            Toast.makeText(this@MainActivity, "You have denied location permission. Please allow it is mandatory.", Toast.LENGTH_SHORT).show()
                         }
                     }
 
-                    override fun onPermissionRationaleShouldBeShown(
-                        permissions: MutableList<PermissionRequest>?,
-                        token: PermissionToken?
-                    ) {
+                    override fun onPermissionRationaleShouldBeShown(permissions: MutableList<PermissionRequest>?, token: PermissionToken?) {
                         showRationalDialogForPermissions()
                     }
-                }).onSameThread()
-                .check()
+                }).onSameThread().check()
         }
     }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.btn_refresh -> {
+                getLocationWeatherDetails()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
     private fun isLocationEnabled(): Boolean {
 
-        // This provides access to the system location services.
         val locationManager: LocationManager =
             getSystemService(Context.LOCATION_SERVICE) as LocationManager
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
@@ -113,22 +121,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showRationalDialogForPermissions() {
-        AlertDialog.Builder(this)
-            .setMessage("It Looks like you have turned off permissions required for this feature. It can be enabled under Application Settings")
-            .setPositiveButton(
-                "GO TO SETTINGS"
-            ) { _, _ ->
-                try {
-                    val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-                    val uri = Uri.fromParts("package", packageName, null)
-                    intent.data = uri
-                    startActivity(intent)
-                } catch (e: ActivityNotFoundException) {
-                    e.printStackTrace()
-                }
+        AlertDialog.Builder(this).setMessage("It Looks like you have turned off permissions required for this feature. It can be enabled under Application Settings").setPositiveButton("GO TO SETTINGS") { _, _ ->
+            try {
+                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                val uri = Uri.fromParts("package", packageName, null)
+                intent.data = uri
+                startActivity(intent)
+            } catch (e: ActivityNotFoundException) {
+                e.printStackTrace()
             }
-            .setNegativeButton("Cancel") { dialog,
-                                           _ ->
+        }
+            .setNegativeButton("Cancel") { dialog, _ ->
                 dialog.dismiss()
             }.show()
     }
@@ -140,69 +143,69 @@ class MainActivity : AppCompatActivity() {
         mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-        mFusedLocationClient.requestLocationUpdates(
-            mLocationRequest, mLocationCallback,
-            Looper.myLooper()
-        )
+        mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper())
     }
 
     private val mLocationCallback = object : LocationCallback() {
         override fun onLocationResult(locationResult: LocationResult) {
-            val mLastLocation: Location = locationResult.lastLocation!!
-            val latitude = mLastLocation.latitude
-            Log.i("Current Latitude", "$latitude")
 
-            val longitude = mLastLocation.longitude
-            Log.i("Current Longitude", "$longitude")
+            val mLastLocation: Location? = locationResult.lastLocation
+            if (mLastLocation != null) {
+                mLatitude = mLastLocation.latitude
+            }
+            Log.e("Current Latitude", "$mLatitude")
+            if (mLastLocation != null) {
+                mLongitude = mLastLocation.longitude
+            }
+            Log.e("Current Longitude", "$mLongitude")
 
-            getLocationWeatherDetails(latitude, longitude)
-
-            mFusedLocationClient.removeLocationUpdates(this);
+            getLocationWeatherDetails()
         }
     }
 
-    private fun getLocationWeatherDetails(latitude: Double, longitude: Double) {
+
+    private fun getLocationWeatherDetails() {
 
         if (Constants.isNetworkAvailable(this@MainActivity)) {
 
-            val customProgressDialog = Dialog(this)
-            customProgressDialog.setContentView(R.layout.custom_dialog)
-            customProgressDialog.setCancelable(false)
-            customProgressDialog.show()
+            val retrofit: Retrofit = Retrofit.Builder().baseUrl(Constants.BASE_URL).addConverterFactory(GsonConverterFactory.create()).build()
 
-            val retrofit: Retrofit = Retrofit.Builder()
-                // API base URL.
-                .baseUrl(Constants.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
+            val service: WeatherService = retrofit.create(WeatherService::class.java)
 
-            val service: WeatherService =
-                retrofit.create<WeatherService>(WeatherService::class.java)
+            val listCall: Call<WeatherResponse> = service.getWeather(mLatitude, mLongitude, Constants.METRIC_UNIT, Constants.APP_ID)
 
-            val listCall: Call<WeatherResponse> = service.getWeather(latitude, longitude, Constants.METRIC_UNIT, Constants.APP_ID)
+            showCustomProgressDialog()
 
             listCall.enqueue(object : Callback<WeatherResponse> {
+                @RequiresApi(Build.VERSION_CODES.N)
                 @SuppressLint("SetTextI18n")
-
                 override fun onResponse(
-                    call: Call<WeatherResponse>,
-                    response: Response<WeatherResponse>
+                    response: Response<WeatherResponse>,
+                    retrofit: Retrofit
                 ) {
 
-                    if (response.isSuccessful) {
+                    if (response.isSuccess) {
 
-                        val weatherList: WeatherResponse = response.body()!!
+                        hideProgressDialog()
+
+                        val weatherList: WeatherResponse = response.body()
+                        Log.i("Response Result", "$weatherList")
+
                         val weatherResponseJsonString = Gson().toJson(weatherList)
+
                         val editor = mSharedPreferences.edit()
                         editor.putString(Constants.WEATHER_RESPONSE_DATE, weatherResponseJsonString)
                         editor.apply()
 
-                        customProgressDialog.dismiss()
 
-                        setupUi()
+                        if(srl_layout.isRefreshing){
+                            srl_layout.isRefreshing = false
+                        }
+
+                        setupUI()
 
                     } else {
-                        // If the response is not success then we check the response code.
+
                         when (response.code()) {
                             400 -> {
                                 Log.e("Error 400", "Bad Request")
@@ -214,49 +217,64 @@ class MainActivity : AppCompatActivity() {
                                 Log.e("Error", "Generic Error")
                             }
                         }
+
+                        if(srl_layout.isRefreshing){
+                            srl_layout.isRefreshing = false
+                        }
                     }
                 }
 
-                override fun onFailure(call: Call<WeatherResponse>, t: Throwable) {
-                    Log.e("Errorrrrr", t.message.toString())
+                override fun onFailure(t: Throwable) {
+                    hideProgressDialog()
+                    Log.e("Error", t.message.toString())
                 }
             })
-
         } else {
-            Toast.makeText(
-                this@MainActivity,
-                "No internet connection available.",
-                Toast.LENGTH_SHORT
-            ).show()
+            Toast.makeText(this@MainActivity, "No internet connection available.", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun showCustomProgressDialog() {
+
+        mProgressDialog = Dialog(this)
+
+        mProgressDialog!!.setContentView(R.layout.custom_dialog)
+
+        mProgressDialog!!.show()
+    }
+
+    private fun hideProgressDialog() {
+        if (mProgressDialog != null) {
+            mProgressDialog!!.dismiss()
         }
     }
 
     @SuppressLint("SetTextI18n")
-    private fun setupUi(){
+    @RequiresApi(Build.VERSION_CODES.N)
+    private fun setupUI() {
 
         val weatherResponseJsonString = mSharedPreferences.getString(Constants.WEATHER_RESPONSE_DATE, "")
 
-        if(!weatherResponseJsonString.isNullOrEmpty()) {
+        if (!weatherResponseJsonString.isNullOrEmpty()) {
 
             val weatherList = Gson().fromJson(weatherResponseJsonString, WeatherResponse::class.java)
 
-            Log.i("Response Result", "$weatherList")
+            for (z in weatherList.weather.indices) {
+                Log.i("NAME", weatherList.weather[z].main)
 
-            for (i in weatherList.weather.indices) {
-                Log.e("weather name", weatherList.weather.toString())
-                tv_main.text = weatherList.weather[i].main
-                tv_main_description.text = weatherList.weather[i].description
+                tv_main.text = weatherList.weather[z].main
+                tv_main_description.text = weatherList.weather[z].description
                 tv_temp.text = weatherList.main.temp.toString() + getUnit(application.resources.configuration.locales.toString())
+                tv_humidity.text = weatherList.main.humidity.toString() + " per cent"
+                tv_min.text = weatherList.main.temp_min.toString() + " min"
+                tv_max.text = weatherList.main.temp_max.toString() + " max"
                 tv_speed.text = weatherList.wind.speed.toString()
-                tv_humidity.text = weatherList.main.humidity.toString() + "% RH"
-                tv_max.text = weatherList.main.temp_max.toString() + "º max"
-                tv_min.text = weatherList.main.temp_min.toString() + "º min"
-                tv_country.text = weatherList.sys.country.toString()
                 tv_name.text = weatherList.name
-                tv_sunrise_time.text = timetoDateConverter(weatherList.sys.sunrise)
-                tv_sunset_time.text = timetoDateConverter(weatherList.sys.sunset)
+                tv_country.text = weatherList.sys.country
+                tv_sunrise_time.text = unixTime(weatherList.sys.sunrise)
+                tv_sunset_time.text = unixTime(weatherList.sys.sunset)
 
-                when (weatherList.weather[i].icon) {
+                when (weatherList.weather[z].icon) {
                     "01d" -> iv_main.setImageResource(R.drawable.sunny)
                     "02d" -> iv_main.setImageResource(R.drawable.cloud)
                     "03d" -> iv_main.setImageResource(R.drawable.cloud)
@@ -265,11 +283,11 @@ class MainActivity : AppCompatActivity() {
                     "10d" -> iv_main.setImageResource(R.drawable.rain)
                     "11d" -> iv_main.setImageResource(R.drawable.storm)
                     "13d" -> iv_main.setImageResource(R.drawable.snowflake)
-                    "01n" -> iv_main.setImageResource(R.drawable.sunny)
+                    "01n" -> iv_main.setImageResource(R.drawable.cloud)
                     "02n" -> iv_main.setImageResource(R.drawable.cloud)
                     "03n" -> iv_main.setImageResource(R.drawable.cloud)
                     "10n" -> iv_main.setImageResource(R.drawable.cloud)
-                    "11n" -> iv_main.setImageResource(R.drawable.storm)
+                    "11n" -> iv_main.setImageResource(R.drawable.rain)
                     "13n" -> iv_main.setImageResource(R.drawable.snowflake)
                 }
             }
@@ -279,36 +297,23 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun getUnit(parameter: String): String {
-        var unit  = "ºC"
-        if(parameter ==  "US" || parameter == "LR" || parameter == "MM" ){
-            unit  = "ºF"
+    private fun getUnit(value: String): String {
+        Log.i("unit", value)
+        var value = "°C"
+        if ("US" == value || "LR" == value || "MM" == value) {
+            value = "°F"
         }
-        return unit
+        return value
     }
 
-    private fun timetoDateConverter(time: Long) : String?{
-        val date = Date(time * 1000L)
-        val sdf = SimpleDateFormat("HH:mm", Locale.UK)
+    private fun unixTime(timex: Long): String? {
+        val date = Date(timex * 1000L)
+        @SuppressLint("SimpleDateFormat") val sdf =
+            SimpleDateFormat("HH:mm:ss")
         sdf.timeZone = TimeZone.getDefault()
         return sdf.format(date)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return super.onCreateOptionsMenu(menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when(item.itemId){
-            R.id.btn_refresh -> {
-                requestLocationData()
-                true
-            }
-
-            else -> return super.onOptionsItemSelected(item)
-        }
-    }
 
     private fun getCurrentDateTime(): String? {
         val formatter = SimpleDateFormat("HH:mm:ss dd/MM/yyyy ", Locale.UK)
