@@ -5,7 +5,11 @@
     <color name="colorAccent">#03DAC5</color>
 
     <color name="main_screen_content_background_color">#EFEFEF</color>
-    <color name="primary_text_color">#363A43</color>
+    <color name="primary_text_color_light_theme">#363A43</color>
+    <color name="primary_text_color_dark_theme">#e0e0e0</color>
     <color name="secondary_text_color">#7A8089</color>
     <color name="divider_background">#e0e0e0</color>
+    <color name="color_background_light_theme">#DFDEDE</color>
+    <color name="color_background_dark_theme">#141414</color>
+    <color name="color_secondary_background_dark_theme">#282828</color>
 </resources>

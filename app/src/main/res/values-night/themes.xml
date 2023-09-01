@@ -3,14 +3,18 @@
     <style name="Theme.WeatherApp" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/cardview_dark_background</item>
-        <item name="colorPrimaryVariant">@color/cardview_dark_background</item>
-        <item name="colorOnPrimary">@color/cardview_dark_background</item>
+        <item name="colorPrimaryVariant">@color/color_secondary_background_dark_theme</item>
+        <item name="colorOnPrimary">@color/color_secondary_background_dark_theme</item>
+        <item name="colorSurface">@color/cardview_dark_background</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/cardview_dark_background</item>
         <item name="colorSecondaryVariant">@color/cardview_dark_background</item>
         <item name="colorOnSecondary">@color/cardview_dark_background</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor" tools:targetApi="l">@color/cardview_dark_background</item>
         <!-- Customize your theme here. -->
+        <item name="android:textColorPrimary">@color/primary_text_color_dark_theme</item>
+        <item name="android:textColorSecondary">@color/secondary_text_color</item>
+
     </style>
 </resources>

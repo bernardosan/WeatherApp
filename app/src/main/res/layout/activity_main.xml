@@ -2,15 +2,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/srl_layout"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#DFDEDE"
+        android:background="?colorOnPrimary"
         android:orientation="vertical"
-        android:padding="@dimen/main_screen_content_padding">
+        android:padding="@dimen/main_screen_content_padding"
+        android:clipToPadding="false">
 
 
     <LinearLayout
@@ -25,6 +27,7 @@
             android:layout_marginEnd="@dimen/card_view_marginStartEnd"
             android:layout_weight="1"
             android:background="@android:color/white"
+            android:clipToPadding="false"
             app:cardCornerRadius="@dimen/card_view_corner_radius"
             app:cardElevation="@dimen/card_view_elevation">
 
@@ -33,7 +36,8 @@
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:padding="@dimen/card_view_content_padding">
+                android:padding="@dimen/card_view_content_padding"
+                android:clipToPadding="false">
 
                 <ImageView
                     android:id="@+id/iv_main"
@@ -53,7 +57,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="end"
-                        android:textColor="@color/primary_text_color"
+                        android:textColor="?android:textColorPrimary"
                         android:textSize="@dimen/label_text_size"
                         android:textStyle="bold"
                         tools:text="Weather" />
@@ -63,7 +67,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="end"
-                        android:textColor="@color/secondary_text_color"
+                        android:textColor="?android:textColorSecondary"
                         android:textSize="@dimen/value_text_size"
                         tools:text="condition" />
                 </LinearLayout>
@@ -77,6 +81,7 @@
             android:layout_marginEnd="@dimen/card_view_marginStartEnd"
             android:layout_weight="1"
             android:background="@android:color/white"
+            android:clipToPadding="false"
             app:cardCornerRadius="@dimen/card_view_corner_radius"
             app:cardElevation="@dimen/card_view_elevation">
 
@@ -105,7 +110,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="end"
-                        android:textColor="@color/primary_text_color"
+                        android:textColor="?android:textColorPrimary"
                         android:textSize="@dimen/label_text_size"
                         android:textStyle="bold"
                         tools:text="Degree" />
@@ -115,7 +120,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="end"
-                        android:textColor="@color/secondary_text_color"
+                        android:textColor="?android:textColorSecondary"
                         android:textSize="@dimen/value_text_size"
                         tools:text="per cent" />
                 </LinearLayout>
@@ -137,6 +142,7 @@
             android:layout_marginEnd="@dimen/card_view_marginStartEnd"
             android:layout_weight="1"
             android:background="@android:color/white"
+            android:clipToPadding="false"
             app:cardCornerRadius="@dimen/card_view_corner_radius"
             app:cardElevation="@dimen/card_view_elevation">
 
@@ -165,8 +171,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="end"
-                        android:textColor="@color/primary_text_color"
-                        android:textSize="@dimen/label_text_size"
+                        android:textColor="?android:textColorPrimary"
+                        android:textSize="16dp"
                         android:textStyle="bold"
                         tools:text="Minimum" />
 
@@ -175,8 +181,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="end"
-                        android:textColor="@color/secondary_text_color"
-                        android:textSize="@dimen/value_text_size"
+                        android:textColor="?android:textColorSecondary"
+                        android:textSize="16dp"
                         tools:text="Maximum" />
                 </LinearLayout>
             </LinearLayout>
@@ -189,6 +195,7 @@
             android:layout_marginEnd="@dimen/card_view_marginStartEnd"
             android:layout_weight="1"
             android:background="@android:color/white"
+            android:clipToPadding="false"
             app:cardCornerRadius="@dimen/card_view_corner_radius"
             app:cardElevation="@dimen/card_view_elevation">
 
@@ -217,7 +224,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="end"
-                        android:textColor="@color/primary_text_color"
+                        android:textColor="?android:textColorPrimary"
                         android:textSize="@dimen/label_text_size"
                         android:textStyle="bold"
                         tools:text="Wind" />
@@ -228,7 +235,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="end"
                         android:text="@string/miles_per_hour"
-                        android:textColor="@color/secondary_text_color"
+                        android:textColor="?android:textColorSecondary"
                         android:textSize="@dimen/value_text_size" />
                 </LinearLayout>
             </LinearLayout>
@@ -242,6 +249,7 @@
         android:layout_marginTop="@dimen/card_view_marginTop"
         android:layout_marginEnd="@dimen/card_view_marginStartEnd"
         android:background="@android:color/white"
+        android:clipToPadding="false"
         app:cardCornerRadius="@dimen/card_view_corner_radius"
         app:cardElevation="@dimen/card_view_elevation">
 
@@ -277,7 +285,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="end"
-                        android:textColor="@color/primary_text_color"
+                        android:textColor="?android:textColorPrimary"
                         android:textSize="@dimen/label_text_size"
                         android:textStyle="bold"
                         tools:text="Name" />
@@ -287,7 +295,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="end"
-                        android:textColor="@color/secondary_text_color"
+                        android:textColor="?android:textColorSecondary"
                         android:textSize="@dimen/value_text_size"
                         tools:text="Country" />
                 </LinearLayout>
@@ -324,7 +332,7 @@
                         android:id="@+id/tv_sunrise_time"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/secondary_text_color"
+                        android:textColor="?android:textColorSecondary"
                         android:textSize="@dimen/value_text_size"
                         tools:text="Sunrise" />
                 </LinearLayout>
@@ -347,7 +355,7 @@
                         android:id="@+id/tv_sunset_time"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/secondary_text_color"
+                        android:textColor="?android:textColorSecondary"
                         android:textSize="@dimen/value_text_size"
                         tools:text="Sunset" />
                 </LinearLayout>
@@ -360,12 +368,26 @@
         android:id="@+id/tv_last_update"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textColor="@color/secondary_text_color"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:textColor="?android:textColorSecondary"
         android:textSize="@dimen/value_text_size"
         android:layout_marginTop="@dimen/card_view_marginTop"
         tools:text="Last update: 00:00:00" />
 
+
+        <TextView
+            android:id="@+id/tv_openWeather"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:textStyle="bold"
+            android:text="@string/openweather"
+            android:clickable="true"
+            android:textColor="?android:textColorSecondary"
+            android:textSize="@dimen/value_text_size"
+            android:layout_marginTop="@dimen/card_view_marginTop"
+             />
 
     </LinearLayout>
 

@@ -2,6 +2,7 @@ package com.example.weatherapp
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.ActionBar
 import android.app.Dialog
 import android.content.ActivityNotFoundException
 import android.content.Context
@@ -34,6 +35,17 @@ import kotlinx.android.synthetic.main.activity_main.*
 import retrofit.*
 import java.text.SimpleDateFormat
 import java.util.*
+import android.graphics.drawable.ColorDrawable
+import android.os.CountDownTimer
+import android.text.method.LinkMovementMethod
+import com.example.weatherapp.Constants.LAST_UPDATE_DATE_KEY
+import com.example.weatherapp.Constants.LATITUDE_KEY
+import com.example.weatherapp.Constants.LONGITUDE_KEY
+import com.example.weatherapp.Constants.getCurrentDateTime
+import com.example.weatherapp.Constants.getUnit
+import com.example.weatherapp.Constants.hasPassedMinutes
+import com.example.weatherapp.Constants.unixTime
+import com.google.android.material.snackbar.Snackbar
 
 
 class MainActivity : AppCompatActivity() {
@@ -58,11 +70,12 @@ class MainActivity : AppCompatActivity() {
 
         mSharedPreferences = getSharedPreferences(Constants.PREFERENCE_NAME, Context.MODE_PRIVATE)
 
-
-        setupUI()
+        setupUI(false)
 
         srl_layout.setOnRefreshListener {
+
             getLocationWeatherDetails()
+
         }
 
 
@@ -93,6 +106,9 @@ class MainActivity : AppCompatActivity() {
                     }
                 }).onSameThread().check()
         }
+
+
+        tv_openWeather.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -159,7 +175,10 @@ class MainActivity : AppCompatActivity() {
             }
             Log.e("Current Longitude", "$mLongitude")
 
+
             getLocationWeatherDetails()
+
+
         }
     }
 
@@ -202,7 +221,9 @@ class MainActivity : AppCompatActivity() {
                             srl_layout.isRefreshing = false
                         }
 
-                        setupUI()
+                        setupUI(true)
+
+                        mSharedPreferences.edit().putString(LAST_UPDATE_DATE_KEY, tv_last_update.text.toString()).apply()
 
                     } else {
 
@@ -251,7 +272,7 @@ class MainActivity : AppCompatActivity() {
 
     @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.N)
-    private fun setupUI() {
+    private fun setupUI(refresh: Boolean = false) {
 
         val weatherResponseJsonString = mSharedPreferences.getString(Constants.WEATHER_RESPONSE_DATE, "")
 
@@ -265,9 +286,9 @@ class MainActivity : AppCompatActivity() {
                 tv_main.text = weatherList.weather[z].main
                 tv_main_description.text = weatherList.weather[z].description
                 tv_temp.text = weatherList.main.temp.toString() + getUnit(application.resources.configuration.locales.toString())
-                tv_humidity.text = weatherList.main.humidity.toString() + " per cent"
-                tv_min.text = weatherList.main.temp_min.toString() + " min"
-                tv_max.text = weatherList.main.temp_max.toString() + " max"
+                tv_humidity.text = weatherList.main.humidity.toString() + " %RH"
+                tv_min.text = weatherList.main.temp_min.toString() + getUnit(application.resources.configuration.locales.toString()) + " min"
+                tv_max.text = weatherList.main.temp_max.toString() + getUnit(application.resources.configuration.locales.toString()) + " max"
                 tv_speed.text = weatherList.wind.speed.toString()
                 tv_name.text = weatherList.name
                 tv_country.text = weatherList.sys.country
@@ -292,33 +313,13 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
-            tv_last_update.text = "Last update: ${getCurrentDateTime()}"
 
+            if(refresh){
+                tv_last_update.text = "Last update: ${getCurrentDateTime()}"
+            } else{
+                tv_last_update.text = mSharedPreferences.getString(LAST_UPDATE_DATE_KEY, "0")
+            }
         }
     }
-
-    private fun getUnit(value: String): String {
-        Log.i("unit", value)
-        var value = "°C"
-        if ("US" == value || "LR" == value || "MM" == value) {
-            value = "°F"
-        }
-        return value
-    }
-
-    private fun unixTime(timex: Long): String? {
-        val date = Date(timex * 1000L)
-        @SuppressLint("SimpleDateFormat") val sdf =
-            SimpleDateFormat("HH:mm:ss")
-        sdf.timeZone = TimeZone.getDefault()
-        return sdf.format(date)
-    }
-
-
-    private fun getCurrentDateTime(): String? {
-        val formatter = SimpleDateFormat("HH:mm:ss dd/MM/yyyy ", Locale.UK)
-        return formatter.format(Calendar.getInstance().time)
-    }
-
 
 }
