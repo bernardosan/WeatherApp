@@ -4,10 +4,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.ActionBar
 import android.app.Dialog
-import android.content.ActivityNotFoundException
-import android.content.Context
-import android.content.Intent
-import android.content.SharedPreferences
+import android.content.*
 import android.location.Location
 import android.location.LocationManager
 import android.net.Uri
@@ -38,6 +35,8 @@ import java.util.*
 import android.graphics.drawable.ColorDrawable
 import android.os.CountDownTimer
 import android.text.method.LinkMovementMethod
+import android.widget.Button
+import android.widget.TextView
 import com.example.weatherapp.Constants.LAST_UPDATE_DATE_KEY
 import com.example.weatherapp.Constants.LATITUDE_KEY
 import com.example.weatherapp.Constants.LONGITUDE_KEY
@@ -46,6 +45,7 @@ import com.example.weatherapp.Constants.getUnit
 import com.example.weatherapp.Constants.hasPassedMinutes
 import com.example.weatherapp.Constants.unixTime
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.reference_dialog.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -108,7 +108,6 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-        tv_openWeather.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -121,6 +120,10 @@ class MainActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.btn_refresh -> {
                 getLocationWeatherDetails()
+                true
+            }
+            R.id.btn_about -> {
+                showAboutDialog()
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -321,5 +324,23 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+    private fun showAboutDialog() {
+        val view = layoutInflater.inflate(R.layout.reference_dialog, null)
+        val dialog = AlertDialog.Builder(this)
+            .setView(view)
+            .show()
+        val btn_about_close = view.findViewById<Button>(R.id.btn_about_close)
+        val tv_openWeather = view.findViewById<TextView>(R.id.tv_about)
+
+        tv_openWeather.setMovementMethod(LinkMovementMethod.getInstance());
+
+        btn_about_close.setOnClickListener {
+            dialog.dismiss()
+        }
+
+    }
+
+
 
 }

@@ -5,19 +5,45 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:orientation="horizontal"
-    android:padding="10dp"
+    android:orientation="vertical"
+    android:padding="20dp"
     tools:context=".MainActivity">
 
-    <ProgressBar
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginEnd="10dp" />
-    
     <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="gravity"
+        android:justificationMode="inter_word"
+        android:text="@string/about_title"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        tools:ignore="UnusedAttribute"/>
+
+    <TextView
+        android:id="@+id/tv_about"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="textStart"
+        android:justificationMode="inter_word"
+        android:textColor="?android:textColorPrimary"
+        android:textColorLink="?android:textColorPrimary"
+        android:textSize="14sp"
+        android:text="@string/about"
+        android:linksClickable="true"
+        tools:ignore="UnusedAttribute"/>
+
+    <Button
+        android:id="@+id/btn_about_close"
+        android:layout_marginTop="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/please_wait"
-        android:gravity="center" />
+        android:layout_gravity="end"
+        android:justificationMode="inter_word"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:text="CLOSE"
+        android:clickable="true"
+        tools:ignore="UnusedAttribute"/>
 
 </LinearLayout>

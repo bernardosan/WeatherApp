@@ -7,4 +7,6 @@
     <string name="miles_per_hour">miles/hour</string>
     <string name="refresh">Refresh</string>
     <string name="openweather">Weather Info: <a href="https://openweathermap.org">OpenWeatherMap</a></string>
+    <string name="about">WeatherWise is based on <a href="https://openweathermap.org">OpenWeatherMap</a> API acquired data. All permissions granted by the user are strictly used for the display of the local weather informations, no data is shared nor maintened for any comercial purpose.</string>
+    <string name="about_title">About</string>
 </resources>

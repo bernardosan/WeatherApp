@@ -375,20 +375,6 @@
         android:layout_marginTop="@dimen/card_view_marginTop"
         tools:text="Last update: 00:00:00" />
 
-
-        <TextView
-            android:id="@+id/tv_openWeather"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:textStyle="bold"
-            android:text="@string/openweather"
-            android:clickable="true"
-            android:textColor="?android:textColorSecondary"
-            android:textSize="@dimen/value_text_size"
-            android:layout_marginTop="@dimen/card_view_marginTop"
-             />
-
     </LinearLayout>
 
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

@@ -10,7 +10,7 @@
         <item name="colorSecondaryVariant">@color/cardview_dark_background</item>
         <item name="colorOnSecondary">@color/cardview_dark_background</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor" tools:targetApi="l">@color/cardview_dark_background</item>
         <!-- Customize your theme here. -->
         <item name="android:textColorPrimary">@color/primary_text_color_light_theme</item>
         <item name="android:textColorSecondary">@color/secondary_text_color</item>
