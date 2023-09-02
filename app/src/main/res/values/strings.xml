@@ -1,12 +1,12 @@
 <resources>
-    <string name="app_name">Weather App</string>
+    <string name="app_name">WeatherWise</string>
 
     <string name="please_wait">Please Wait&#8230;</string>
 
     <string name="image_contentDescription">image</string>
-    <string name="miles_per_hour">miles/hour</string>
+    <string name="miles_per_hour">mph</string>
     <string name="refresh">Refresh</string>
     <string name="openweather">Weather Info: <a href="https://openweathermap.org">OpenWeatherMap</a></string>
-    <string name="about">WeatherWise is based on <a href="https://openweathermap.org">OpenWeatherMap</a> API acquired data. All permissions granted by the user are strictly used for the display of the local weather informations, no data is shared nor maintened for any comercial purpose.</string>
+    <string name="about">WeatherWise is based on <a href="https://openweathermap.org">OpenWeatherMap</a> API acquired data. All permissions granted by the user are strictly used for the display of the local weather informations, no data is shared nor maintened for any comercial purpose. \nWeatherWise was developed and published only for educational purposes, having no commercial endeavor assigned to it </string>
     <string name="about_title">About</string>
 </resources>

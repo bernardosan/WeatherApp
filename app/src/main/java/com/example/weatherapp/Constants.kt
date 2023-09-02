@@ -64,8 +64,25 @@ object Constants {
 
 
     fun getCurrentDateTime(): String? {
-        val formatter = SimpleDateFormat("HH:mm:ss dd/MM/yyyy ", Locale.UK)
+        val formatter = SimpleDateFormat("HH:mm:ss dd/MM/yyyy", Locale.UK)
         return formatter.format(Calendar.getInstance().time)
+    }
+
+    fun getCurrentDate():String?{
+        val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.UK)
+        var date = formatter.format(Calendar.getInstance().time)
+
+
+        when (Calendar.getInstance().get(Calendar.DAY_OF_WEEK)) {
+            Calendar.SUNDAY -> {    date = "Sunday, $date" }
+            Calendar.MONDAY -> {    date = "Monday, $date" }
+            Calendar.TUESDAY -> {   date = "Tuesday, $date" }
+            Calendar.WEDNESDAY -> { date = "Wednesday, $date" }
+            Calendar.THURSDAY -> {  date = "Thursday, $date" }
+            Calendar.FRIDAY -> {    date = "Friday, $date" }
+            Calendar.SATURDAY -> {  date = "Saturday, $date" }
+        }
+        return date
     }
 
 

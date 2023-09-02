@@ -40,12 +40,16 @@ import android.widget.TextView
 import com.example.weatherapp.Constants.LAST_UPDATE_DATE_KEY
 import com.example.weatherapp.Constants.LATITUDE_KEY
 import com.example.weatherapp.Constants.LONGITUDE_KEY
+import com.example.weatherapp.Constants.getCurrentDate
 import com.example.weatherapp.Constants.getCurrentDateTime
 import com.example.weatherapp.Constants.getUnit
 import com.example.weatherapp.Constants.hasPassedMinutes
 import com.example.weatherapp.Constants.unixTime
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.reference_dialog.*
+import kotlin.math.ceil
+import kotlin.math.floor
+import kotlin.math.roundToInt
 
 
 class MainActivity : AppCompatActivity() {
@@ -288,11 +292,11 @@ class MainActivity : AppCompatActivity() {
 
                 tv_main.text = weatherList.weather[z].main
                 tv_main_description.text = weatherList.weather[z].description
-                tv_temp.text = weatherList.main.temp.toString() + getUnit(application.resources.configuration.locales.toString())
-                tv_humidity.text = weatherList.main.humidity.toString() + " %RH"
-                tv_min.text = weatherList.main.temp_min.toString() + getUnit(application.resources.configuration.locales.toString()) + " min"
-                tv_max.text = weatherList.main.temp_max.toString() + getUnit(application.resources.configuration.locales.toString()) + " max"
-                tv_speed.text = weatherList.wind.speed.toString()
+                tv_temp.text = weatherList.main.temp.roundToInt().toString() + getUnit(application.resources.configuration.locales.toString())
+                tv_humidity.text = weatherList.main.humidity.toString() + "%"
+                tv_min.text = ceil(weatherList.main.temp_min).roundToInt().toString() + getUnit(application.resources.configuration.locales.toString())
+                tv_max.text = floor(weatherList.main.temp_max).roundToInt().toString() + getUnit(application.resources.configuration.locales.toString())
+                tv_speed.text = String.format("%.3s", weatherList.wind.speed.toString())
                 tv_name.text = weatherList.name
                 tv_country.text = weatherList.sys.country
                 tv_sunrise_time.text = unixTime(weatherList.sys.sunrise)
@@ -316,6 +320,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
+            tv_date.text = getCurrentDate()
 
             if(refresh){
                 tv_last_update.text = "Last update: ${getCurrentDateTime()}"
