@@ -183,7 +183,7 @@ class MainActivity : AppCompatActivity() {
             Log.e("Current Longitude", "$mLongitude")
 
 
-            getLocationWeatherDetails()
+            setupUI(true)
 
 
         }
@@ -294,8 +294,8 @@ class MainActivity : AppCompatActivity() {
                 tv_main_description.text = weatherList.weather[z].description
                 tv_temp.text = weatherList.main.temp.roundToInt().toString() + getUnit(application.resources.configuration.locales.toString())
                 tv_humidity.text = weatherList.main.humidity.toString() + "%"
-                tv_min.text = ceil(weatherList.main.temp_min).roundToInt().toString() + getUnit(application.resources.configuration.locales.toString())
-                tv_max.text = floor(weatherList.main.temp_max).roundToInt().toString() + getUnit(application.resources.configuration.locales.toString())
+                tv_min.text = floor(weatherList.main.temp_min).roundToInt().toString() + getUnit(application.resources.configuration.locales.toString())
+                tv_max.text = ceil(weatherList.main.temp_max).roundToInt().toString() + getUnit(application.resources.configuration.locales.toString())
                 tv_speed.text = String.format("%.3s", weatherList.wind.speed.toString())
                 tv_name.text = weatherList.name
                 tv_country.text = weatherList.sys.country
