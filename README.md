@@ -7,7 +7,8 @@
 
 <div align="center">
 
-<img src="https://github.com/bernardosan/images/blob/main/WeatherApp/weatherAppGif.gif" width="300">
+<img src="https://raw.githubusercontent.com/bernardosan/images/main/WeatherApp/gif_weather_app_light.gif" width="300">
+<img src="https://raw.githubusercontent.com/bernardosan/images/main/WeatherApp/gif_weather_app_dark.gif" width="300">
 
 </div>
 
