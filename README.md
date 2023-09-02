@@ -16,7 +16,7 @@
 
 The app proposal is to be a simple Weather App, that gathers the user's location, and show the location's weather information.
 
-WeatherApp uses information from OpenWeatherMap API, requesting users location weather information.
+WeatherWise uses information from OpenWeatherMap API, requesting users location weather information and stores the API Json locally as a String using SharedPreferences. 
 
 ## 🚀 Tools
 
@@ -35,6 +35,7 @@ The project used the following tools:
 - Swipe to Refresh
 - LinearLayout, SwipeRefreshLayout
 - OpenWeatherMap
+- SharedPreferences
 
 
 ---
@@ -50,5 +51,7 @@ The project used the following implementations:
 
 
 ---
+
+PS: OpenWeatherMap API is free, but the free-mode will only give the current's day data.
 
 ### Developed by Bernardo Santiago de Souza.
